@@ -63,6 +63,8 @@ package AWTK.Windows is
    type HINSTANCE is new HANDLE;
    subtype HMODULE is HINSTANCE;
    type LPCSTR is new HANDLE;
+   type LPWSTR is new HANDLE;
+   type LPTSTR is new LPWSTR;
    type LONG_PTR is mod System.Memory_Size;
    type LRESULT is new LONG_PTR;
    type WPARAM is new LONG_PTR;
@@ -103,8 +105,19 @@ package AWTK.Windows is
       Message_LPParam     : HANDLE := System.Null_Address) return HWND
    with Import => True, External_Name => "CreateWindowExA", Convention => C;
 
+   function Format_Message
+     (Parameters              : DWORD;
+      Message_Source          : HANDLE := System.Null_Address;
+      Mesasge_ID, Language_ID : DWORD;
+      Buffer                  : LPTSTR;
+      Buffer_Size             : DWORD;
+      Arguments               : HANDLE := System.Null_Address) return DWORD
+   with Import => True, External_Name => "FormatMessage", Convention => C;
+
    function Get_Last_Error return DWORD
    with Import => True, External_Name => "GetLastError", Convention => C;
+
+   function Get_Last_Error_Formatted return Wide_String;
 
    function Windows_Process_Callback
      (Window_Handle : HANDLE;

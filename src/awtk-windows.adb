@@ -1,5 +1,6 @@
 pragma Ada_2022;
 
+with System.Storage_Elements;
 with Ada.Text_IO;
 
 package body AWTK.Windows is
@@ -33,6 +34,41 @@ package body AWTK.Windows is
       return 0;
    end Windows_Process_Callback;
 
+   function Get_Last_Error_Formatted return Wide_String is
+      Last_Error     : constant DWORD := Get_Last_Error;
+      Buffer_Pointer : System.Storage_Elements.Integer_Address;
+      Buffer_Size    : DWORD;
+      pragma Volatile (Buffer_Pointer);
+   begin
+      Buffer_Size :=
+        Format_Message
+          (Parameters  => 16#1100#,
+           Mesasge_ID  => Last_Error,
+           Language_ID => 0,
+           Buffer      => LPTSTR (Buffer_Pointer'Address),
+           Buffer_Size => 1);
+      if Buffer_Size = 0 then
+         return
+           "Last error code:"
+           & Last_Error'Wide_Image
+           & ", additionally FormatMesasge failed with"
+           & Get_Last_Error'Wide_Image;
+      else
+         declare
+            Error_String : Wide_String (1 .. Integer (Buffer_Size));
+            for Error_String'Address use
+              System.Storage_Elements.To_Address (Buffer_Pointer);
+         begin
+            return
+              "Last error:"
+              & Last_Error'Wide_Image
+              & " ["
+              & Error_String
+              & "]";
+         end;
+      end if;
+   end Get_Last_Error_Formatted;
+
    ---------------------------
    -- Create_Windows_Window --
    ---------------------------
@@ -53,14 +89,18 @@ package body AWTK.Windows is
             Window_Class_Name => LPCSTR (Window_Class_Name'Address),
             others            => <>);
       begin
-         Ada.Text_IO.Put_Line ("Registering class @" & Window_Class_Definition'Address'Image &": " & Window_Class_Definition'Image);
+         Ada.Text_IO.Put_Line
+           ("Registering class @"
+            & Window_Class_Definition'Address'Image
+            & ": "
+            & Window_Class_Definition'Image);
          Window_Class_Atom :=
            Register_Class_ExA (Window_Class_Definition'Address);
          if Window_Class_Atom = 0 then
             raise Program_Error
               with
                 "Failed to initialize the window class. Last error code:"
-                & Get_Last_Error'Image;
+                & Get_Last_Error_Formatted'Image;
          end if;
       end;
 
@@ -74,15 +114,12 @@ package body AWTK.Windows is
            0,
            500,
            500,
-           HWND (System.Null_Address),
-           HMENU (System.Null_Address),
-           Application_Handle,
-           System.Null_Address);
+           Module_Handle => Application_Handle);
       if Window_Handle = HWND (System.Null_Address) then
          raise Program_Error
            with
              "Failed to create the window. Last error code:"
-             & Get_Last_Error'Image
+             & Get_Last_Error_Formatted'Image
              & ", created class ATOM:"
              & Window_Class_Atom'Image;
       end if;
