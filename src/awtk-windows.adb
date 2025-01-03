@@ -25,7 +25,7 @@ package body AWTK.Windows is
 
    function Create_Windows_Window return Windows_Window is
    begin
-      Ada.Text_IO.Put_Line (Register_Class_ExA (Register_Class_ExA'Address)'Image);
+      Ada.Text_IO.Put_Line (Register_Class_ExA (System.Null_Address)'Image);
       Ada.Text_IO.Put_Line (Get_Last_Error'Image);
       
       return
