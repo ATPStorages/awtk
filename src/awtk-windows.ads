@@ -7,7 +7,7 @@ with System;
 
 package AWTK.Windows is
 
-   pragma Linker_Options ("-lkernel32");
+   pragma Linker_Options ("-LC:\Windows\System32 -lkernel32");
 
    type Window_Class_Styles is
      (REDRAW_ON_CLIENT_AREA_CHANGE_VERTICALLY,
