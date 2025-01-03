@@ -53,7 +53,7 @@ package body AWTK.Windows is
             Window_Class_Name => LPCSTR (Window_Class_Name'Address),
             others            => <>);
       begin
-         Ada.Text_IO.Put_Line ("Registering class @ " & Window_Class_Definition'Address'Image &": " & Window_Class_Definition'Image);
+         Ada.Text_IO.Put_Line ("Registering class @" & Window_Class_Definition'Address'Image &": " & Window_Class_Definition'Image);
          Window_Class_Atom :=
            Register_Class_ExA (Window_Class_Definition'Address);
          if Window_Class_Atom = 0 then
@@ -75,6 +75,7 @@ package body AWTK.Windows is
            500,
            500,
            Module_Handle => Application_Handle);
+      Ada.Text_IO.Put_Line ("Window Handle:" & Window_Handle'Image);
       if Window_Handle = HWND (System.Null_Address) then
          raise Program_Error
            with
