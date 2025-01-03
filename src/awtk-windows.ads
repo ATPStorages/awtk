@@ -7,8 +7,6 @@ with System;
 
 package AWTK.Windows is
 
-   pragma Linker_Options ("-LC:\Windows\System32 -lkernel32");
-
    type Window_Class_Styles is
      (REDRAW_ON_CLIENT_AREA_CHANGE_VERTICALLY,
       REDRAW_ON_CLIENT_AREA_CHANGE_HORIZONTALLY,
@@ -115,6 +113,8 @@ package AWTK.Windows is
       Buffer_Size             : DWORD;
       Arguments               : HANDLE := System.Null_Address) return DWORD
    with Import => True, External_Name => "FormatMessage", Convention => C;
+
+   pragma Linker_Options ("-lkernel32");
 
    function Get_Last_Error return DWORD
    with Import => True, External_Name => "GetLastError", Convention => C;
