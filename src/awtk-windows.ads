@@ -112,9 +112,7 @@ package AWTK.Windows is
       Buffer                  : LPTSTR;
       Buffer_Size             : DWORD;
       Arguments               : HANDLE := System.Null_Address) return DWORD
-   with Import => True, External_Name => "FormatMessage", Convention => C;
-
-   pragma Linker_Options ("-lkernel32");
+   with Import => True, External_Name => "FormatMessageW", Convention => C;
 
    function Get_Last_Error return DWORD
    with Import => True, External_Name => "GetLastError", Convention => C;
