@@ -105,7 +105,7 @@ package AWTK.Windows is
       Message_LPParam     : HANDLE := System.Null_Address) return HWND
    with Import => True, External_Name => "CreateWindowExA", Convention => C;
 
-   function Format_Message
+   function Format_Message_W
      (Parameters              : DWORD;
       Message_Source          : HANDLE := System.Null_Address;
       Mesasge_ID, Language_ID : DWORD;

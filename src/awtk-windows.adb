@@ -41,7 +41,7 @@ package body AWTK.Windows is
       pragma Volatile (Buffer_Pointer);
    begin
       Buffer_Size :=
-        Format_Message
+        Format_Message_W
           (Parameters  => 16#1100#,
            Mesasge_ID  => Last_Error,
            Language_ID => 0,
@@ -51,11 +51,11 @@ package body AWTK.Windows is
          return
            "Last error code:"
            & Last_Error'Wide_Image
-           & ", additionally FormatMesasge failed with"
+           & ", additionally FormatMessageW failed with"
            & Get_Last_Error'Wide_Image;
       else
          declare
-            Error_String : Wide_String (1 .. Integer (Buffer_Size));
+            Error_String : Wide_String (1 .. Integer (Buffer_Size) - 2);
             for Error_String'Address use
               System.Storage_Elements.To_Address (Buffer_Pointer);
          begin
