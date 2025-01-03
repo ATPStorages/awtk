@@ -1,3 +1,5 @@
+pragma Ada_2022;
+
 with Ada.Text_IO;
 
 package body AWTK.Windows is
@@ -19,12 +21,18 @@ package body AWTK.Windows is
       Output.Put ("]");
    end Window_Class_Styles_Flags_Put_Image;
 
+   function Windows_Process_Callback (Window_Handle : HANDLE; Message : UINT; AdditionalW : WPARAM; AdditionL : LPARAM) return LRESULT is
+   begin
+      return 0;
+   end;
+
    ---------------------------
    -- Create_Windows_Window --
    ---------------------------
 
    function Create_Windows_Window return Windows_Window is
    begin
+      Ada.Text_IO.Put_Line (Get_Module_Handle_A (LPCSTR (System.Null_Address))'Image);
       Ada.Text_IO.Put_Line (Register_Class_ExA (System.Null_Address)'Image);
       Ada.Text_IO.Put_Line (Get_Last_Error'Image);
       

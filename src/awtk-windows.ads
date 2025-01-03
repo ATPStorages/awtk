@@ -49,34 +49,43 @@ package AWTK.Windows is
      Put_Image => Window_Class_Styles_Flags_Put_Image, Component_Size => 1, Size => unsigned'Size;
    procedure Window_Class_Styles_Flags_Put_Image (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class; Value : Window_Class_Styles_Flags);
 
-   type ATOM is new Interfaces.Integer_16;
-
    type WORD is new Interfaces.Unsigned_16;
    type DWORD is new Interfaces.Unsigned_32;
-
-   subtype Handle is System.Address;
+   type ATOM is new WORD;
+   type UINT is new unsigned;
+   subtype HANDLE is System.Address;
+   type LPCSTR is new HANDLE;
+   type LONG_PTR is mod System.Memory_Size;
+   type LRESULT is new LONG_PTR;
+   type WPARAM is new LONG_PTR;
+   type LPARAM is new LONG_PTR;
 
    type Window_Class is record
       Structure_Size     : unsigned := Window_Class'Size / char'Size;
       Class_Styles       : Window_Class_Styles_Flags;
-      Window_Procedure   : Handle;
+      Window_Procedure   : HANDLE;
       Class_Size_Extra   : int := 0;
       Window_Size_Extra  : int := 0;
-      Window_Handle      : Handle;
-      Icon_Handle        : Handle := System.Null_Address;
-      Cursor_Handle      : Handle := System.Null_Address;
-      Brush_Handle       : Handle := System.Null_Address;
-      Menu_Resource_Name : Handle := System.Null_Address;
-      Window_Class_Name  : Handle;
-      Small_Icon_Handle  : Handle := System.Null_Address;
+      Window_Handle      : HANDLE;
+      Icon_Handle        : HANDLE := System.Null_Address;
+      Cursor_Handle      : HANDLE := System.Null_Address;
+      Brush_Handle       : HANDLE := System.Null_Address;
+      Menu_Resource_Name : HANDLE := System.Null_Address;
+      Window_Class_Name  : HANDLE;
+      Small_Icon_Handle  : HANDLE := System.Null_Address;
    end record
       with Convention => C;
 
-   function Register_Class_ExA (Class_Pointer : Handle) return ATOM
+   function Get_Module_Handle_A (Module_Name : LPCSTR) return HANDLE
+      with Import => True, External_Name => "GetModuleHandleA", Convention => C;
+
+   function Register_Class_ExA (Class_Pointer : HANDLE) return ATOM
       with Import => True, External_Name => "RegisterClassExA", Convention => C;
 
    function Get_Last_Error return DWORD
       with Import => True, External_Name => "GetLastError", Convention => C;
+
+   function Windows_Process_Callback (Window_Handle : HANDLE; Message : UINT; AdditionalW : WPARAM; AdditionL : LPARAM) return LRESULT;
 
    type Windows_Window is new Window with null record;
    function Create_Windows_Window return Windows_Window;
