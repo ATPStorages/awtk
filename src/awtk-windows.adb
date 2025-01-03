@@ -55,7 +55,7 @@ package body AWTK.Windows is
            & Get_Last_Error'Wide_Image;
       else
          declare
-            Error_String : Wide_String (1 .. Integer (Buffer_Size) - 2);
+            Error_String : String (1 .. Integer (Buffer_Size) - 2);
             for Error_String'Address use
               System.Storage_Elements.To_Address (Buffer_Pointer);
          begin
