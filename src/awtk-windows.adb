@@ -1,7 +1,6 @@
 pragma Ada_2022;
 
 with Ada.Text_IO;
-with System.Storage_Elements;
 
 package body AWTK.Windows is
 
@@ -54,6 +53,7 @@ package body AWTK.Windows is
             Window_Class_Name => LPCSTR (Window_Class_Name'Address),
             others            => <>);
       begin
+         Ada.Text_IO.Put_Line ("Registering class @ " & Window_Class_Definition'Address'Image &": " & Window_Class_Definition'Image);
          Window_Class_Atom :=
            Register_Class_ExA (Window_Class_Definition'Address);
          if Window_Class_Atom = 0 then
