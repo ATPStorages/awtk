@@ -74,8 +74,10 @@ package body AWTK.Windows is
            0,
            500,
            500,
-           Module_Handle => Application_Handle);
-      Ada.Text_IO.Put_Line ("Window Handle:" & Window_Handle'Image);
+           HWND (System.Null_Address),
+           HMENU (System.Null_Address),
+           Application_Handle,
+           System.Null_Address);
       if Window_Handle = HWND (System.Null_Address) then
          raise Program_Error
            with
@@ -84,7 +86,7 @@ package body AWTK.Windows is
              & ", created class ATOM:"
              & Window_Class_Atom'Image;
       end if;
-      Ada.Text_IO.Put_Line (Window_Handle'Image);
+      Ada.Text_IO.Put_Line ("Window Handle:" & Window_Handle'Image);
 
       return
         raise Program_Error
