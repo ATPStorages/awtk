@@ -49,24 +49,34 @@ package AWTK.Windows is
      Put_Image => Window_Class_Styles_Flags_Put_Image, Component_Size => 1, Size => unsigned'Size;
    procedure Window_Class_Styles_Flags_Put_Image (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class; Value : Window_Class_Styles_Flags);
 
+   type ATOM is new Interfaces.Integer_16;
+
+   type WORD is new Interfaces.Unsigned_16;
+   type DWORD is new Interfaces.Unsigned_32;
+
+   subtype Handle is System.Address;
+
    type Window_Class is record
-      Structure_Size    : unsigned := Window_Class'Size / char'Size;
-      Class_Styles      : Window_Class_Styles_Flags;
-      Window_Procedure  : System.Address;
-      Class_Size_Extra  : int := 0;
-      Window_Size_Extra : int := 0;
-      Window_Handle     : System.Address;
-      Icon_Handle       : System.Address;
-      Cursor_Handle     : System.Address;
-      Brush_Handle      : System.Address;
-      Resource_Name     : System.Address;
-      Window_Class_Name : System.Address;
-      Small_Icon_Handle : System.Address;
+      Structure_Size     : unsigned := Window_Class'Size / char'Size;
+      Class_Styles       : Window_Class_Styles_Flags;
+      Window_Procedure   : Handle;
+      Class_Size_Extra   : int := 0;
+      Window_Size_Extra  : int := 0;
+      Window_Handle      : Handle;
+      Icon_Handle        : Handle := System.Null_Address;
+      Cursor_Handle      : Handle := System.Null_Address;
+      Brush_Handle       : Handle := System.Null_Address;
+      Menu_Resource_Name : Handle := System.Null_Address;
+      Window_Class_Name  : Handle;
+      Small_Icon_Handle  : Handle := System.Null_Address;
    end record
       with Convention => C;
 
-   function Register_Class_ExA (Class_Pointer : System.Address) return unsigned_short
+   function Register_Class_ExA (Class_Pointer : Handle) return ATOM
       with Import => True, External_Name => "RegisterClassExA", Convention => C;
+
+   function Get_Last_Error return DWORD
+      with Import => True, External_Name => "GetLastError", Convention => C;
 
    type Windows_Window is new Window with null record;
    function Create_Windows_Window return Windows_Window;
