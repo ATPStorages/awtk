@@ -1,9 +1,9 @@
 package AWTK is
-   type Window is limited private;
-   function Is_Fullscreen (Self : Window) return Boolean;
-   procedure Set_Fullscreen (Self : Window; Status : Boolean);
-   procedure Toggle_Fullscreen (Self : Window);
-   function Create_Window return Window;
+   type Window is abstract tagged limited private;
+   function Is_Fullscreen (Self : Window'Class) return Boolean;
+   procedure Set_Fullscreen (Self : Window'Class; Status : Boolean);
+   procedure Toggle_Fullscreen (Self : Window'Class);
+   function Create_Window return Window'Class;
 private
-   type Window is limited null record;
+   type Window is abstract tagged limited null record;
 end AWTK;
