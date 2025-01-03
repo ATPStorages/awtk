@@ -7,6 +7,8 @@ with System;
 
 package AWTK.Windows is
 
+   pragma Linker_Options ("-lkernel32");
+
    type Window_Class_Styles is
      (REDRAW_ON_CLIENT_AREA_CHANGE_VERTICALLY,
       REDRAW_ON_CLIENT_AREA_CHANGE_HORIZONTALLY,
