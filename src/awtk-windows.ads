@@ -70,8 +70,8 @@ package AWTK.Windows is
       Icon_Handle        : HANDLE := System.Null_Address;
       Cursor_Handle      : HANDLE := System.Null_Address;
       Brush_Handle       : HANDLE := System.Null_Address;
-      Menu_Resource_Name : HANDLE := System.Null_Address;
-      Window_Class_Name  : HANDLE;
+      Menu_Resource_Name : LPCSTR := LPCSTR (System.Null_Address);
+      Window_Class_Name  : LPCSTR;
       Small_Icon_Handle  : HANDLE := System.Null_Address;
    end record
       with Convention => C;
@@ -85,7 +85,8 @@ package AWTK.Windows is
    function Get_Last_Error return DWORD
       with Import => True, External_Name => "GetLastError", Convention => C;
 
-   function Windows_Process_Callback (Window_Handle : HANDLE; Message : UINT; AdditionalW : WPARAM; AdditionL : LPARAM) return LRESULT;
+   function Windows_Process_Callback (Window_Handle : HANDLE; Message : UINT; AdditionalW : WPARAM; AdditionL : LPARAM) return LRESULT
+      with Export => True, Convention => C;
 
    type Windows_Window is new Window with null record;
    function Create_Windows_Window return Windows_Window;

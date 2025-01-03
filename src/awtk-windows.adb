@@ -31,9 +31,15 @@ package body AWTK.Windows is
    ---------------------------
 
    function Create_Windows_Window return Windows_Window is
+      Application_Handle      : HANDLE := Get_Module_Handle_A (LPCSTR (System.Null_Address));
+      Window_Class_Definition : Window_Class := (others => <>);
+      Window_Class_Name       : Wide_String := "Dummy Window";
    begin
-      Ada.Text_IO.Put_Line (Get_Module_Handle_A (LPCSTR (System.Null_Address))'Image);
-      Ada.Text_IO.Put_Line (Register_Class_ExA (System.Null_Address)'Image);
+      Ada.Text_IO.Put_Line (Window_Class_Definition'Image);
+      Window_Class_Definition.Window_Procedure := Windows_Process_Callback'Address;
+      Window_Class_Definition.Window_Handle := Application_Handle;
+      Window_Class_Definition.Window_Class_Name := LPCSTR (Window_Class_Name'Address);
+      Ada.Text_IO.Put_Line (Register_Class_ExA (Window_Class_Definition'Address)'Image);
       Ada.Text_IO.Put_Line (Get_Last_Error'Image);
       
       return
