@@ -99,7 +99,7 @@ package body AWTK.Windows is
          if Window_Class_Atom = 0 then
             raise Program_Error
               with
-                "Failed to initialize the window class. Last error code:"
+                "Failed to initialize the window class. "
                 & Get_Last_Error_Formatted'Image;
          end if;
       end;
@@ -118,7 +118,7 @@ package body AWTK.Windows is
       if Window_Handle = HWND (System.Null_Address) then
          raise Program_Error
            with
-             "Failed to create the window. Last error code:"
+             "Failed to create the window. "
              & Get_Last_Error_Formatted'Image
              & ", created class ATOM:"
              & Window_Class_Atom'Image;
