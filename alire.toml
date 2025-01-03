@@ -1,0 +1,10 @@
+name = "awtk"
+description = "Ada Windowing ToolKit (AWTK), an experimental window/UI library."
+version = "0.1.0-dev"
+
+authors = ["Miko Elbrecht"]
+maintainers = ["Miko Elbrecht <tcgytsc@gmail.com>"]
+maintainers-logins = ["ATPStorages"]
+licenses = "Apache-2.0 WITH LLVM-exception"
+website = ""
+tags = ["ui", "window", "windows", "linux"]
