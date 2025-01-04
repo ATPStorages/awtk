@@ -45,9 +45,6 @@ package body AWTK.Windows is
          & ", value:"
          & Raw_Message'Image);
       case Message is
-         when CONFIRM_CREATION =>
-            return 1;
-
          when others =>
             return Default_Process_Callback_A (Window_Handle, Raw_Message, AdditionalW, AdditionalL);
       end case;
@@ -104,7 +101,10 @@ package body AWTK.Windows is
       task Poll_Task;
       task body Poll_Task is
       begin
-         delay 999.0;
+         loop
+            delay 1.0;
+            Ada.Text_IO.Put_Line ("Polling loop");
+         end loop;
       end Poll_Task;
    begin
       declare
