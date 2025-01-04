@@ -4,7 +4,7 @@ package AWTK is
    procedure Set_Fullscreen (Self : Window'Class; Status : Boolean);
    procedure Toggle_Fullscreen (Self : Window'Class);
 
-   type Window_Access is not null access Window'Class;
+   type Window_Access is not null access all Window'Class;
 
    function Create_Window return Window_Access;
 private
