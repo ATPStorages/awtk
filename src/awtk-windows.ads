@@ -186,7 +186,7 @@ package AWTK.Windows is
       Window_Filter  : HANDLE := System.Null_Address;
       Filter_ID_Low  : UINT := 0;
       Filter_ID_High : UINT := 0) return BOOL
-   with Import => True, External_Name => "GetMessageA", Convention => C;
+   with Import => True, External_Name => "GetMessage", Convention => C;
 
    function Translate_Message (Message : HANDLE) return BOOL
    with Import => True, External_Name => "TranslateMessage", Convention => C;
