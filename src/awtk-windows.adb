@@ -35,10 +35,11 @@ package body AWTK.Windows is
       function Raw_To_Message is new Ada.Unchecked_Conversion (UINT, Window_Callback_Message);
       Message : Window_Callback_Message;
    begin
-      Message := Raw_To_Message (Raw_Message);
-      if not Message'Valid then
-         Message := UNKNOWN;
-      end if;
+      begin
+         Message := Raw_To_Message (Raw_Message);
+      exception
+         when Constraint_Error => Message := UNKNOWN;
+      end;
       Ada.Text_IO.Put_Line ("Callback fired! Message: " & Message'Image & ", value:" & Raw_Message'Image);
       return 0;
    end Windows_Process_Callback;
