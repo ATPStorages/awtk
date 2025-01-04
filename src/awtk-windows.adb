@@ -46,6 +46,9 @@ package body AWTK.Windows is
          & ", value:"
          & Raw_Message'Image);
       discard := Beep (500, 100);
+      if discard = 0 then
+         Ada.Text_IO.Put_Line (Get_Last_Error_Formatted'Image);
+      end if;
       case Message is
          when others =>
             return
