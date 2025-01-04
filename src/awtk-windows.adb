@@ -151,9 +151,13 @@ package body AWTK.Windows is
          task body Window_Task is
          begin
             loop
+               Ada.Text_IO.Put_Line ("Get");
                Continue := Get_Message_W (Message'Address);
+               Ada.Text_IO.Put_Line ("Got");
                discard_1 := Translate_Message (Message);
+               Ada.Text_IO.Put_Line ("Translated");
                discard_2 := Dispatch_Message_W (Message);
+               Ada.Text_IO.Put_Line ("Dispatched");
                exit when Continue = 0;
             end loop;
          end Window_Task;
