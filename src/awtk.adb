@@ -38,6 +38,6 @@ package body AWTK is
    -- Create_Window --
    -------------------
 
-   function Create_Window return not null access Window'Class is separate;
+   function Create_Window return Window_Access is separate;
 
 end AWTK;
