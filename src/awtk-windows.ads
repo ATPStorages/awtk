@@ -126,7 +126,7 @@ package AWTK.Windows is
 
    function Windows_Process_Callback
      (Window_Handle : HANDLE;
-      Message       : Window_Callback_Message;
+      Raw_Message   : UINT;
       AdditionalW   : WPARAM;
       AdditionL     : LPARAM) return LRESULT
    with Export => True, Convention => C;

@@ -1,5 +1,6 @@
 pragma Ada_2022;
 
+with Ada.Unchecked_Conversion;
 with System.Storage_Elements;
 with Ada.Text_IO;
 
@@ -27,11 +28,17 @@ package body AWTK.Windows is
 
    function Windows_Process_Callback
      (Window_Handle : HANDLE;
-      Message       : Window_Callback_Message;
+      Raw_Message   : UINT;
       AdditionalW   : WPARAM;
-      AdditionL     : LPARAM) return LRESULT is
+      AdditionL     : LPARAM) return LRESULT
+   is
+      function Raw_To_Message is new Ada.Unchecked_Conversion (UINT, Window_Callback_Message);
+      Message : Window_Callback_Message := Raw_To_Message (Raw_Message);
    begin
-      Ada.Text_IO.Put_Line ("Callback fired! Message: " & Message'Image);
+      if not Message'Valid then
+         Message := UNKNOWN;
+      end if;
+      Ada.Text_IO.Put_Line ("Callback fired! Message: " & Message'Image & ", value:" & Raw_Message'Image);
       return 0;
    end Windows_Process_Callback;
 
