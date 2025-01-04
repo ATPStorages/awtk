@@ -368,6 +368,8 @@ package AWTK.Windows is
    function Dispatch_Message_W (Message : LPMSG) return LRESULT
    with Import => True, External_Name => "DispatchMessageW", Convention => C;
 
+   pragma Linker_Options ("-lole32");
+
    function COM_Initialize_Ex
      (Reserved : HANDLE := System.Null_Address; Concurrency_Model : DWORD)
       return HRESULT
