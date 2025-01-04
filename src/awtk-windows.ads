@@ -71,9 +71,25 @@ package AWTK.Windows is
    type LPARAM is new LONG_PTR;
 
    type Window_Callback_Message is
-     (UNKNOWN, CREATED, DESTROYING, MOVED, SIZE_CHANGED) with Size => UINT'Size;
+     (UNKNOWN,
+      CREATED,
+      DESTROYING,
+      MOVED,
+      SIZE_CHANGED,
+      SIZE_OVERRIDE_REQUEST,
+      CONFIRM_CREATION,
+      AFTER_DESTROYING)
+   with Size => UINT'Size;
 
-   for Window_Callback_Message use (UNKNOWN => 16#00_00#, CREATED => 16#00_01#, DESTROYING => 16#00_02#, MOVED => 16#00_03#, SIZE_CHANGED => 16#00_05#);
+   for Window_Callback_Message use
+     (UNKNOWN               => 16#00_00#,
+      CREATED               => 16#00_01#,
+      DESTROYING            => 16#00_02#,
+      MOVED                 => 16#00_03#,
+      SIZE_CHANGED          => 16#00_05#,
+      SIZE_OVERRIDE_REQUEST => 16#00_24#,
+      CONFIRM_CREATION      => 16#00_81#,
+      AFTER_DESTROYING      => 16#00_82#);
 
    type Window_Class is record
       Structure_Size     : unsigned := Window_Class'Size / char'Size;
