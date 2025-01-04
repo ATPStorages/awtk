@@ -1,7 +1,5 @@
 pragma Ada_2022;
 
-with Ada.Strings.Text_Buffers;
-
 with Interfaces.C; use Interfaces.C;
 with System;
 
@@ -46,12 +44,8 @@ package AWTK.Windows is
    type Window_Class_Styles_Flags is
      array (Window_Class_Styles'First .. Window_Class_Styles'Last) of Boolean
    with
-     Put_Image => Window_Class_Styles_Flags_Put_Image,
      Component_Size => 1,
      Size => unsigned'Size;
-   procedure Window_Class_Styles_Flags_Put_Image
-     (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
-      Value  : Window_Class_Styles_Flags);
 
    type WORD is new Interfaces.Unsigned_16;
    type DWORD is new Interfaces.Unsigned_32;
@@ -68,6 +62,7 @@ package AWTK.Windows is
    type LPTSTR is new LPWSTR;
    type LONG_PTR is mod System.Memory_Size;
    type LRESULT is new LONG_PTR;
+   type HRESULT is new long;
    type WPARAM is new LONG_PTR;
    type LPARAM is new LONG_PTR;
    type LPMSG is new HANDLE;
@@ -189,7 +184,7 @@ package AWTK.Windows is
 
    type Window_Class is record
       Structure_Size     : unsigned := Window_Class'Size / char'Size;
-      Class_Styles       : UINT := 0;
+      Class_Styles       : Window_Class_Styles_Flags := (others => False);
       Window_Procedure   : HANDLE;
       Class_Size_Extra   : int := 0;
       Window_Size_Extra  : int := 0;
@@ -271,8 +266,8 @@ package AWTK.Windows is
    function Dispatch_Message_W (Message : LPMSG) return LRESULT
    with Import => True, External_Name => "DispatchMessageW", Convention => C;
 
-   function Beep (Frequency, Duration : DWORD) return BOOL
-   with Import => True, External_Name => "Beep", Convention => C;
+   function COM_Initialize_Ex (Reserved : HANDLE := System.Null_Address; Concurrency_Model : DWORD) return HRESULT
+   with Import => True, External_Name => "CoInitializeEx", Convention => C;
 
    task type Message_Loop_Task is
       entry Start

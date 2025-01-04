@@ -5,26 +5,6 @@ with Ada.Text_IO;
 
 package body AWTK.Windows is
 
-   procedure Window_Class_Styles_Flags_Put_Image
-     (Output : in out Ada.Strings.Text_Buffers.Root_Buffer_Type'Class;
-      Value  : Window_Class_Styles_Flags)
-   is
-      Hit_First : Boolean := False;
-   begin
-      Output.Put ("[");
-      for Flag in Value'First .. Value'Last loop
-         if Value (Flag) then
-            if Hit_First then
-               Output.Put (", ");
-            else
-               Hit_First := True;
-            end if;
-            Output.Put (Flag'Image);
-         end if;
-      end loop;
-      Output.Put ("]");
-   end Window_Class_Styles_Flags_Put_Image;
-
    function Windows_Process_Callback
      (Window_Handle : HWND;
       Raw_Message   : UINT;
@@ -45,10 +25,6 @@ package body AWTK.Windows is
          & Message'Image
          & ", value:"
          & Raw_Message'Image);
-      discard := Beep (500, 100);
-      if discard = 0 then
-         Ada.Text_IO.Put_Line (Get_Last_Error_Formatted'Image);
-      end if;
       case Message is
          when others =>
             return
