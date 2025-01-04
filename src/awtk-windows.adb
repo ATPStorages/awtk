@@ -1,7 +1,5 @@
 pragma Ada_2022;
 
-with Ada.Unchecked_Conversion;
-
 with System.Storage_Elements;
 with Ada.Text_IO;
 

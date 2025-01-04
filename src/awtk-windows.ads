@@ -154,6 +154,24 @@ package AWTK.Windows is
       ALWAYS_ON_TOP           => True,
       others                  => False];
 
+   type COM_Concurrency_Models is
+     (MULTITHREADED,
+      APARTMENT_THREADED,
+      DISABLE_OLE1DDE,
+      SPEED_OVER_MEMORY);
+
+   for COM_Concurrency_Models use
+     (MULTITHREADED               => 0,
+      APARTMENT_THREADED                             => 2 ** 1,
+      DISABLE_OLE1DDE           => 2 ** 2,
+      SPEED_OVER_MEMORY                           => 2 ** 3);
+
+   type COM_Concurrency_Models_Flags is
+     array (COM_Concurrency_Models'First
+            .. COM_Concurrency_Models'Last)
+     of Boolean
+   with Component_Size => 1, Size => DWORD'Size, Convention => C;
+
    type Thread_Message is record
       Window_Handle   : HWND;
       Raw_Message     : UINT;
@@ -288,7 +306,7 @@ package AWTK.Windows is
    with Import => True, External_Name => "RegisterClassExA", Convention => C;
 
    function Create_Window_ExA
-     (Extended_Style      : DWORD;
+     (Extended_Style      : DWORD; --  In the future, figure out why Extended_Window_Class_Styles_Flags doesn't work
       Class_Name          : LPCSTR;
       Window_Name         : LPCSTR;
       Style               : DWORD;
@@ -352,6 +370,9 @@ package AWTK.Windows is
      (Reserved : HANDLE := System.Null_Address; Concurrency_Model : DWORD)
       return HRESULT
    with Import => True, External_Name => "CoInitializeEx", Convention => C;
+
+   procedure COM_Uninitialize
+   with Import => True, External_Name => "CoUninitialize", Convention => C;
 
    task type Message_Loop_Task is
       entry Start
