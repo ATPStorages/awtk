@@ -20,7 +20,7 @@ package AWTK.Windows is
    type LPTSTR is new LPWSTR;
    type LONG_PTR is mod System.Memory_Size;
    type LRESULT is new LONG_PTR;
-   type HRESULT is new long;
+   type HRESULT is new unsigned_long;
    type WPARAM is new LONG_PTR;
    type LPARAM is new LONG_PTR;
    type LPMSG is new HANDLE;
