@@ -95,8 +95,8 @@ package body AWTK.Windows is
       Window_Handle      : HWND;
       Window_Name        : constant String :=
         "Hello World" & ASCII.NUL;
-      Window_Class_Name  : constant Wide_String :=
-        "Dummy" & ASCII.NUL'Wide_Image;
+      Window_Class_Name  : constant String :=
+        "Dummy" & ASCII.NUL;
    begin
       declare
          Window_Class_Definition : constant Window_Class :=
