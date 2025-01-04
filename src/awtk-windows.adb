@@ -162,11 +162,14 @@ package body AWTK.Windows is
          if Window_Class_Atom = 0 then
             raise Program_Error
               with
-                "Failed to initialize the window class. "
+                "Failed to register the window class: "
                 & Get_Last_Error_Formatted'Image;
+         else
+            Ada.Text_IO.Put_Line ("Registered class @" & Window_Class_Atom'Image);
          end if;
       end;
 
+      Ada.Text_IO.Put_Line ("Starting window");
       New_Window.Message_Loop.Start
         (LPCSTR (Window_Class_Name'Address),
          LPCSTR (Window_Name'Address),
