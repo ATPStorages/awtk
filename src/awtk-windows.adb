@@ -26,10 +26,10 @@ package body AWTK.Windows is
    end Window_Class_Styles_Flags_Put_Image;
 
    function Windows_Process_Callback
-     (Window_Handle : HANDLE;
+     (Window_Handle : HWND;
       Raw_Message   : UINT;
       AdditionalW   : WPARAM;
-      AdditionL     : LPARAM) return LRESULT
+      AdditionalL   : LPARAM) return LRESULT
    is
       Message : Window_Callback_Message;
    begin
@@ -49,7 +49,7 @@ package body AWTK.Windows is
             return 1;
 
          when others =>
-            return 0;
+            return Default_Process_Callback_A (Window_Handle, Raw_Message, AdditionalW, AdditionalL);
       end case;
    end Windows_Process_Callback;
 

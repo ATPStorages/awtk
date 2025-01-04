@@ -167,11 +167,18 @@ package AWTK.Windows is
    function Get_Last_Error_Formatted return Wide_String;
 
    function Windows_Process_Callback
-     (Window_Handle : HANDLE;
+     (Window_Handle : HWND;
       Raw_Message   : UINT;
       AdditionalW   : WPARAM;
-      AdditionL     : LPARAM) return LRESULT
+      AdditionalL   : LPARAM) return LRESULT
    with Export => True, Convention => C;
+
+   function Default_Process_Callback_A
+     (Window_Handle : HWND;
+      Raw_Message   : UINT;
+      AdditionalW   : WPARAM;
+      AdditionalL   : LPARAM) return LRESULT
+   with Import => True, External_Name => "DefWindowProcA", Convention => C;
 
    type Windows_Window is new Window with null record;
    function Create_Windows_Window return Windows_Window;
