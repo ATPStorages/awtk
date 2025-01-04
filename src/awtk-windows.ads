@@ -99,6 +99,7 @@ package AWTK.Windows is
       ERASE_BACKGROUND_REQUEST,
       VISIBILITY_CHANGED,
       ACTIVATION_CHANGED_EXTL,
+      MOUSE_MOVED,
       SIZE_OVERRIDE_REQUEST,
       OBJECT_REQUEST,
       POSITION_CHANGING,
@@ -107,8 +108,11 @@ package AWTK.Windows is
       CONFIRM_CREATION,
       AFTER_DESTROYING,
       CALCULATE_CLIENT_AREA_SIZE,
+      ABSOLUTE_SCREEN_POSITION,
       FRAME_PAINT_REQUEST,
       ACTIVATION_CHANGED_INTL,
+      MOUSE_MOVED_NON_CLIENT,
+      LEFT_MOUSE_DOWN_NON_CLIENT,
       IME_SET_CONTEXT)
    with Size => UINT'Size;
 
@@ -123,6 +127,7 @@ package AWTK.Windows is
       ERASE_BACKGROUND_REQUEST   => 16#00_14#,
       VISIBILITY_CHANGED         => 16#00_18#,
       ACTIVATION_CHANGED_EXTL    => 16#00_1C#,
+      MOUSE_MOVED                => 16#00_20#,
       SIZE_OVERRIDE_REQUEST      => 16#00_24#,
       OBJECT_REQUEST             => 16#00_3D#,
       POSITION_CHANGING          => 16#00_46#,
@@ -131,8 +136,11 @@ package AWTK.Windows is
       CONFIRM_CREATION           => 16#00_81#,
       AFTER_DESTROYING           => 16#00_82#,
       CALCULATE_CLIENT_AREA_SIZE => 16#00_83#,
+      ABSOLUTE_SCREEN_POSITION   => 16#00_84#,
       FRAME_PAINT_REQUEST        => 16#00_85#,
       ACTIVATION_CHANGED_INTL    => 16#00_86#,
+      MOUSE_MOVED_NON_CLIENT     => 16#00_A0#,
+      LEFT_MOUSE_DOWN_NON_CLIENT => 16#00_A1#,
       IME_SET_CONTEXT            => 16#02_81#);
 
    type Window_Class is record
