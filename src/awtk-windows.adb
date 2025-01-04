@@ -85,7 +85,7 @@ package body AWTK.Windows is
 
       Window_Handle :=
         Create_Window_ExA
-          (0,
+          ([others => False],
            Window_Class_Name,
            Window_Name,
            16#10cf0000#,

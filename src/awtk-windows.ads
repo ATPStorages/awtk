@@ -5,6 +5,31 @@ with System;
 
 package AWTK.Windows is
 
+   type WORD is new Interfaces.Unsigned_16;
+   type DWORD is new Interfaces.Unsigned_32;
+   type ATOM is new WORD;
+   type BOOL is new int;
+   type UINT is new unsigned;
+   subtype HANDLE is System.Address;
+   type HWND is new HANDLE;
+   type HMENU is new HANDLE;
+   type HINSTANCE is new HANDLE;
+   subtype HMODULE is HINSTANCE;
+   type LPCSTR is new HANDLE;
+   type LPWSTR is new HANDLE;
+   type LPTSTR is new LPWSTR;
+   type LONG_PTR is mod System.Memory_Size;
+   type LRESULT is new LONG_PTR;
+   type HRESULT is new long;
+   type WPARAM is new LONG_PTR;
+   type LPARAM is new LONG_PTR;
+   type LPMSG is new HANDLE;
+   type POINT is record
+      X, Y : long;
+   end record
+   with Convention => C;
+   subtype POINTL is POINT;
+
    type Window_Class_Styles is
      (REDRAW_ON_CLIENT_AREA_CHANGE_VERTICALLY,
       REDRAW_ON_CLIENT_AREA_CHANGE_HORIZONTALLY,
@@ -43,34 +68,91 @@ package AWTK.Windows is
 
    type Window_Class_Styles_Flags is
      array (Window_Class_Styles'First .. Window_Class_Styles'Last) of Boolean
-   with
-     Component_Size => 1,
-     Size => unsigned'Size;
+   with Component_Size => 1, Size => UINT'Size;
 
-   type WORD is new Interfaces.Unsigned_16;
-   type DWORD is new Interfaces.Unsigned_32;
-   type ATOM is new WORD;
-   type BOOL is new int;
-   type UINT is new unsigned;
-   subtype HANDLE is System.Address;
-   type HWND is new HANDLE;
-   type HMENU is new HANDLE;
-   type HINSTANCE is new HANDLE;
-   subtype HMODULE is HINSTANCE;
-   type LPCSTR is new HANDLE;
-   type LPWSTR is new HANDLE;
-   type LPTSTR is new LPWSTR;
-   type LONG_PTR is mod System.Memory_Size;
-   type LRESULT is new LONG_PTR;
-   type HRESULT is new long;
-   type WPARAM is new LONG_PTR;
-   type LPARAM is new LONG_PTR;
-   type LPMSG is new HANDLE;
-   type POINT is record
-      X, Y : long;
-   end record
-   with Convention => C;
-   subtype POINTL is POINT;
+   type Extended_Window_Class_Styles is
+     (DOUBLE_BORDER_MODAL_FRAME,
+      UNDEFINED_1,
+      DO_NOT_NOTIFY_PARENT_OF_STATE,
+      ALWAYS_ON_TOP,
+      ACCEPT_DRAG_DROPPED_FILES,
+      TRANSPARENT_BACKGROUND,
+      MDI_CHILD_WINDOW,
+      FLOATING_TOOLBAR,
+      BORDER_WITH_RAISED_EDGE,
+      BORDER_WITH_SUNKEN_EDGE,
+      HAS_HELP_BUTTON,
+      UNDEFINED_2,
+      HA_RIGHT_ALIGNED_PROPERTIES,
+      HA_RIGHT_TO_LEFT_READING,
+      HA_LEFT_SCROLLBAR,
+      UNDEFINED_3,
+      CHILD_CONTROLLED_NAVIGATION,
+      BORDER_3D_NO_INPUT,
+      TASKBAR_WINDOW,
+      LAYERED_WINDOW,
+      LAYOUT_IS_NOT_INHERITED,
+      NO_SCREEN_REDIRECTION_BITMAP,
+      HA_LAYOUT_RIGHT_TO_LEFT,
+      UNDEFINED_4,
+      UNDEFINED_5,
+      DOUBLE_BUFFERED_BOTTOM_TO_TOP_RENDERING,
+      UNDEFINED_6,
+      NOT_ACTIVATABLE_BY_INPUT,
+      UNDEFINED_7,
+      UNDEFINED_8,
+      UNDEFINED_9,
+      UNDEFINED_10);
+
+   for Extended_Window_Class_Styles use
+     (DOUBLE_BORDER_MODAL_FRAME               => 2 ** 0,
+      UNDEFINED_1                             => 2 ** 1,
+      DO_NOT_NOTIFY_PARENT_OF_STATE           => 2 ** 2,
+      ALWAYS_ON_TOP                           => 2 ** 3,
+      ACCEPT_DRAG_DROPPED_FILES               => 2 ** 4,
+      TRANSPARENT_BACKGROUND                  => 2 ** 5,
+      MDI_CHILD_WINDOW                        => 2 ** 6,
+      FLOATING_TOOLBAR                        => 2 ** 7,
+      BORDER_WITH_RAISED_EDGE                 => 2 ** 8,
+      BORDER_WITH_SUNKEN_EDGE                 => 2 ** 9,
+      HAS_HELP_BUTTON                         => 2 ** 10,
+      UNDEFINED_2                             => 2 ** 11,
+      HA_RIGHT_ALIGNED_PROPERTIES             => 2 ** 12,
+      HA_RIGHT_TO_LEFT_READING                => 2 ** 13,
+      HA_LEFT_SCROLLBAR                       => 2 ** 14,
+      UNDEFINED_3                             => 2 ** 15,
+      CHILD_CONTROLLED_NAVIGATION             => 2 ** 16,
+      BORDER_3D_NO_INPUT                      => 2 ** 17,
+      TASKBAR_WINDOW                          => 2 ** 18,
+      LAYERED_WINDOW                          => 2 ** 19,
+      LAYOUT_IS_NOT_INHERITED                 => 2 ** 20,
+      NO_SCREEN_REDIRECTION_BITMAP            => 2 ** 21,
+      HA_LAYOUT_RIGHT_TO_LEFT                 => 2 ** 22,
+      UNDEFINED_4                             => 2 ** 23,
+      UNDEFINED_5                             => 2 ** 24,
+      DOUBLE_BUFFERED_BOTTOM_TO_TOP_RENDERING => 2 ** 25,
+      UNDEFINED_6                             => 2 ** 26,
+      NOT_ACTIVATABLE_BY_INPUT                => 2 ** 27,
+      UNDEFINED_7                             => 2 ** 28,
+      UNDEFINED_8                             => 2 ** 29,
+      UNDEFINED_9                             => 2 ** 30,
+      UNDEFINED_10                            => 2 ** 31);
+
+   type Extended_Window_Class_Styles_Flags is
+     array (Extended_Window_Class_Styles'First
+            .. Extended_Window_Class_Styles'Last)
+     of Boolean
+   with Component_Size => 1, Size => DWORD'Size;
+
+   OVERLAPPED_WINDOW : constant Extended_Window_Class_Styles_Flags :=
+     [BORDER_WITH_RAISED_EDGE => True,
+      BORDER_WITH_SUNKEN_EDGE => True,
+      others                  => False];
+   PALETTE_WINDOW    : constant Extended_Window_Class_Styles_Flags :=
+     [BORDER_WITH_RAISED_EDGE => True,
+      FLOATING_TOOLBAR        => True,
+      ALWAYS_ON_TOP           => True,
+      others                  => False];
 
    type Thread_Message is record
       Window_Handle   : HWND;
@@ -206,7 +288,7 @@ package AWTK.Windows is
    with Import => True, External_Name => "RegisterClassExA", Convention => C;
 
    function Create_Window_ExA
-     (Extended_Style      : DWORD;
+     (Extended_Style      : Extended_Window_Class_Styles_Flags;
       Class_Name          : LPCSTR;
       Window_Name         : LPCSTR;
       Style               : DWORD;
@@ -266,7 +348,9 @@ package AWTK.Windows is
    function Dispatch_Message_W (Message : LPMSG) return LRESULT
    with Import => True, External_Name => "DispatchMessageW", Convention => C;
 
-   function COM_Initialize_Ex (Reserved : HANDLE := System.Null_Address; Concurrency_Model : DWORD) return HRESULT
+   function COM_Initialize_Ex
+     (Reserved : HANDLE := System.Null_Address; Concurrency_Model : DWORD)
+      return HRESULT
    with Import => True, External_Name => "CoInitializeEx", Convention => C;
 
    task type Message_Loop_Task is
