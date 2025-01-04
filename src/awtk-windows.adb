@@ -93,8 +93,8 @@ package body AWTK.Windows is
       Application_Handle : constant HMODULE := Get_Module_Handle_A;
       Window_Class_Atom  : ATOM;
       Window_Handle      : HWND;
-      Window_Name        : constant Wide_String :=
-        "Hello World" & ASCII.NUL'Wide_Image;
+      Window_Name        : constant String :=
+        "Hello World" & ASCII.NUL;
       Window_Class_Name  : constant Wide_String :=
         "Dummy" & ASCII.NUL'Wide_Image;
    begin
