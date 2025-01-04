@@ -47,7 +47,13 @@ package body AWTK.Windows is
          & Message'Image
          & ", value:"
          & Raw_Message'Image);
-      return 0;
+      case Message is
+         when CONFIRM_CREATION =>
+            return 1;
+
+         when others =>
+            return 0;
+      end case;
    end Windows_Process_Callback;
 
    function Get_Last_Error_Formatted return Wide_String is
