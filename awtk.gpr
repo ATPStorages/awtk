@@ -9,6 +9,18 @@ project Awtk is
    for Create_Missing_Dirs use "True";
    for Library_Dir use "lib";
 
+   type OS_Type is ("unknown", "Windows_NT", "linux", "macos");
+   OS : OS_Type := External ("OS", "unknown");
+
+   package Naming is
+      case OS is
+         when "Windows_NT" =>
+            for Body ("AWTK.Create_Window") use "awtk-create_window-windows.adb";
+         when others =>
+            for Body ("AWTK.Create_Window") use "awtk-create_window.adb";
+      end case;
+   end Naming;
+
    type Library_Type_Type is ("relocatable", "static", "static-pic");
    Library_Type : Library_Type_Type :=
      external ("AWTK_LIBRARY_TYPE", external ("LIBRARY_TYPE", "static"));

@@ -1,6 +1,3 @@
-with AWTK.Windows;
-with GNAT.OS_Lib;
-
 package body AWTK is
 
    -------------------
@@ -41,19 +38,6 @@ package body AWTK is
    -- Create_Window --
    -------------------
 
-   function Create_Window return Window'Class is
-   begin
-      case GNAT.OS_Lib.Directory_Separator is
-         when '/' =>
-            return AWTK.Windows.Create_Windows_Window;
-
-         when '\' =>
-            return AWTK.Windows.Create_Windows_Window;
-
-         when others =>
-            null;
-      end case;
-      return raise Program_Error with "AWTK is not supported on this platform";
-   end Create_Window;
+   function Create_Window return not null access Window'Class is separate;
 
 end AWTK;

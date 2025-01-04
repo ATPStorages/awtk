@@ -85,46 +85,23 @@ package body AWTK.Windows is
       end if;
    end Get_Last_Error_Formatted;
 
-   ---------------------------
-   -- Create_Windows_Window --
-   ---------------------------
-
-   function Create_Windows_Window return Windows_Window is
-      Application_Handle : constant HMODULE := Get_Module_Handle_A;
-      Window_Class_Atom  : ATOM;
+   task body Message_Loop_Task is
       Window_Handle      : HWND;
-      Window_Name        : constant String :=
-        "Hello World" & ASCII.NUL;
-      Window_Class_Name  : constant String :=
-        "Dummy" & ASCII.NUL;
+      Window_Class_Name  : LPCSTR;
+      Window_Name        : LPCSTR;
+      Application_Handle : HINSTANCE;
    begin
-      declare
-         Window_Class_Definition : constant Window_Class :=
-           (Window_Procedure  => Windows_Process_Callback'Address,
-            Window_Handle     => Application_Handle,
-            Window_Class_Name => LPCSTR (Window_Class_Name'Address),
-            others            => <>);
-      begin
-         Ada.Text_IO.Put_Line
-           ("Registering class @"
-            & Window_Class_Definition'Address'Image
-            & ": "
-            & Window_Class_Definition'Image);
-         Window_Class_Atom :=
-           Register_Class_ExA (Window_Class_Definition'Address);
-         if Window_Class_Atom = 0 then
-            raise Program_Error
-              with
-                "Failed to initialize the window class. "
-                & Get_Last_Error_Formatted'Image;
-         end if;
-      end;
+      accept Start (New_Class_Name, New_Window_Name : LPCSTR; New_Application_Handle : HINSTANCE) do
+         Application_Handle := New_Application_Handle;
+         Window_Class_Name := New_Class_Name;
+         Window_Name := New_Window_Name;
+      end Start;
 
       Window_Handle :=
         Create_Window_ExA
           (0,
-           LPCSTR (Window_Class_Name'Address),
-           LPCSTR (Window_Name'Address),
+           Window_Class_Name,
+           Window_Name,
            16#10cf0000#,
            0,
            0,
@@ -134,10 +111,8 @@ package body AWTK.Windows is
       if Window_Handle = HWND (System.Null_Address) then
          raise Program_Error
            with
-             "Failed to create the window. "
-             & Get_Last_Error_Formatted'Image
-             & ", created class ATOM:"
-             & Window_Class_Atom'Image;
+             "Failed to create the window: "
+             & Get_Last_Error_Formatted'Image;
       end if;
 
       declare
@@ -163,8 +138,47 @@ package body AWTK.Windows is
             end loop;
             Ada.Text_IO.Put_Line ("Message loop terminated.");
       end;
+   end Message_Loop_Task;
 
-      return (others => <>);
+   ---------------------------
+   -- Create_Windows_Window --
+   ---------------------------
+
+   function Create_Windows_Window return not null access Windows_Window is
+      Application_Handle : constant HMODULE := Get_Module_Handle_A;
+      Window_Class_Atom  : ATOM;
+      Window_Name        : constant String :=
+        "Hello World" & ASCII.NUL;
+      Window_Class_Name  : constant String :=
+        "Dummy" & ASCII.NUL;
+
+      New_Window : not null access Windows_Window := new Windows_Window'(others => <>);
+   begin
+      declare
+         Window_Class_Definition : constant Window_Class :=
+           (Window_Procedure  => Windows_Process_Callback'Address,
+            Window_Handle     => Application_Handle,
+            Window_Class_Name => LPCSTR (Window_Class_Name'Address),
+            others            => <>);
+      begin
+         Ada.Text_IO.Put_Line
+           ("Registering class @"
+            & Window_Class_Definition'Address'Image
+            & ": "
+            & Window_Class_Definition'Image);
+         Window_Class_Atom :=
+           Register_Class_ExA (Window_Class_Definition'Address);
+         if Window_Class_Atom = 0 then
+            raise Program_Error
+              with
+                "Failed to initialize the window class. "
+                & Get_Last_Error_Formatted'Image;
+         end if;
+      end;
+
+      New_Window.Message_Loop := new Message_Loop_Task;
+      New_Window.Message_Loop.Start (LPCSTR (Window_Class_Name'Address), LPCSTR (Window_Name'Address), Application_Handle);
+      return New_Window;
    end Create_Windows_Window;
 
 end AWTK.Windows;

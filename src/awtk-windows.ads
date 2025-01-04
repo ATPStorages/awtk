@@ -271,6 +271,13 @@ package AWTK.Windows is
    function Dispatch_Message_W (Message : LPMSG) return LRESULT
    with Import => True, External_Name => "DispatchMessageW", Convention => C;
 
-   type Windows_Window is new Window with null record;
-   function Create_Windows_Window return Windows_Window;
+   task type Message_Loop_Task is
+      entry Start (New_Class_Name, New_Window_Name : LPCSTR; New_Application_Handle : HINSTANCE);
+   end Message_Loop_Task;
+
+   type Windows_Window is new Window with record
+      Message_Loop : access Message_Loop_Task := null;
+   end record;
+
+   function Create_Windows_Window return not null access Windows_Window;
 end AWTK.Windows;
