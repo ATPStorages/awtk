@@ -95,9 +95,8 @@ package body AWTK.Windows is
            500,
            Module_Handle => Application_Handle);
       if Window_Handle = HWND (System.Null_Address) then
-         raise Program_Error
-           with
-             "Failed to create the window: " & Get_Last_Error_Formatted'Image;
+         Ada.Text_IO.Put_Line("Failed to create the window: " & Get_Last_Error_Formatted'Image);
+         goto Stop;
       end if;
 
       declare
@@ -130,6 +129,7 @@ package body AWTK.Windows is
          end loop;
          Ada.Text_IO.Put_Line ("Message loop terminated.");
       end;
+      <<Stop>>
    end Message_Loop_Task;
 
    ---------------------------
