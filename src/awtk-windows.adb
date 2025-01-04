@@ -1,6 +1,5 @@
 pragma Ada_2022;
 
-with Ada.Unchecked_Conversion;
 with System.Storage_Elements;
 with Ada.Text_IO;
 
@@ -32,12 +31,10 @@ package body AWTK.Windows is
       AdditionalW   : WPARAM;
       AdditionL     : LPARAM) return LRESULT
    is
-      function Raw_To_Message is new
-        Ada.Unchecked_Conversion (UINT, Window_Callback_Message);
       Message : Window_Callback_Message;
    begin
       begin
-         Message := Raw_To_Message (Raw_Message);
+         Message := Window_Callback_Message'Enum_Val (Raw_Message);
       exception
          when Constraint_Error =>
             Message := UNKNOWN;
