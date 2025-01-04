@@ -27,11 +27,11 @@ package body AWTK.Windows is
 
    function Windows_Process_Callback
      (Window_Handle : HANDLE;
-      Message       : UINT;
+      Message       : Window_Callback_Message;
       AdditionalW   : WPARAM;
       AdditionL     : LPARAM) return LRESULT is
    begin
-      Ada.Text_IO.Put_Line ("Callback fired!");
+      Ada.Text_IO.Put_Line ("Callback fired! Message: " & Message'Image);
       return 0;
    end Windows_Process_Callback;
 

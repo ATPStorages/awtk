@@ -70,6 +70,11 @@ package AWTK.Windows is
    type WPARAM is new LONG_PTR;
    type LPARAM is new LONG_PTR;
 
+   type Window_Callback_Message is
+     (UNKNOWN, CREATED, DESTROYING, MOVED, SIZE_CHANGED) with Size => UINT'Size;
+
+   for Window_Callback_Message use (UNKNOWN => 16#00_00#, CREATED => 16#00_01#, DESTROYING => 16#00_02#, MOVED => 16#00_03#, SIZE_CHANGED => 16#00_05#);
+
    type Window_Class is record
       Structure_Size     : unsigned := Window_Class'Size / char'Size;
       Class_Styles       : Window_Class_Styles_Flags;
@@ -121,7 +126,7 @@ package AWTK.Windows is
 
    function Windows_Process_Callback
      (Window_Handle : HANDLE;
-      Message       : UINT;
+      Message       : Window_Callback_Message;
       AdditionalW   : WPARAM;
       AdditionL     : LPARAM) return LRESULT
    with Export => True, Convention => C;
