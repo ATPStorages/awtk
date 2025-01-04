@@ -33,8 +33,9 @@ package body AWTK.Windows is
       AdditionL     : LPARAM) return LRESULT
    is
       function Raw_To_Message is new Ada.Unchecked_Conversion (UINT, Window_Callback_Message);
-      Message : Window_Callback_Message := Raw_To_Message (Raw_Message);
+      Message : Window_Callback_Message;
    begin
+      Message := Raw_To_Message (Raw_Message);
       if not Message'Valid then
          Message := UNKNOWN;
       end if;
