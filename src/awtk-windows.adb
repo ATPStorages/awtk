@@ -154,7 +154,7 @@ package body AWTK.Windows is
          begin
             Ada.Text_IO.Put_Line ("Starting message loop. (Message Address:" & Message_Address'Image & ", Size:" & Message'Size'Image & ")");
             loop
-               Continue := Get_Message_W (Message_Address);
+               Continue := Get_Message_W (Message_Address, Window_Handle);
                Ada.Text_IO.Put_Line ("Got");
                discard_1 := Translate_Message (Message_Address);
                Ada.Text_IO.Put_Line ("Translated");

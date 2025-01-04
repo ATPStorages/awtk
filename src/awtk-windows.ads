@@ -84,6 +84,7 @@ package AWTK.Windows is
       AdditionalL     : LPARAM;
       Posted_At       : DWORD;
       Cursor_Position : POINT;
+      PrivateL        : DWORD;
    end record
    with Convention => C;
 
@@ -199,14 +200,14 @@ package AWTK.Windows is
 
    function Get_Message_W
      (Message        : LPMSG;
-      Window_Filter  : HANDLE := System.Null_Address;
+      Window_Filter  : HWND := HWND (System.Null_Address);
       Filter_ID_Low  : UINT := 0;
       Filter_ID_High : UINT := 0) return BOOL
    with Import => True, External_Name => "GetMessageW", Convention => C;
 
    function Peek_Message_W
      (Message        : LPMSG;
-      Window_Filter  : HANDLE := System.Null_Address;
+      Window_Filter  : HWND := HWND (System.Null_Address);
       Filter_ID_Low  : UINT := 0;
       Filter_ID_High : UINT := 0;
       Parameters     : UINT := 1) return BOOL
