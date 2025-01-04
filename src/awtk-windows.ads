@@ -271,6 +271,9 @@ package AWTK.Windows is
    function Dispatch_Message_W (Message : LPMSG) return LRESULT
    with Import => True, External_Name => "DispatchMessageW", Convention => C;
 
+   function Beep (Frequency, Duration : DWORD) return BOOL
+   with Import => True, External_Name => "Beep", Convention => C;
+
    task type Message_Loop_Task is
       entry Start
         (New_Class_Name, New_Window_Name : LPCSTR;

@@ -32,6 +32,7 @@ package body AWTK.Windows is
       AdditionalL   : LPARAM) return LRESULT
    is
       Message : Window_Callback_Message;
+      discard : BOOL;
    begin
       begin
          Message := Window_Callback_Message'Enum_Val (Raw_Message);
@@ -44,6 +45,7 @@ package body AWTK.Windows is
          & Message'Image
          & ", value:"
          & Raw_Message'Image);
+      discard := Beep (500, 100);
       case Message is
          when others =>
             return
