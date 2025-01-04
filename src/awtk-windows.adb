@@ -100,6 +100,14 @@ package body AWTK.Windows is
         "Hello World" & ASCII.NUL'Wide_Image;
       Window_Class_Name  : constant Wide_String :=
         "Dummy" & ASCII.NUL'Wide_Image;
+
+      task Poll_Task;
+      task body Poll_Task is
+      begin
+         loop
+            null;
+         end loop;
+      end Poll_Task;
    begin
       declare
          Window_Class_Definition : constant Window_Class :=
@@ -144,13 +152,7 @@ package body AWTK.Windows is
       end if;
       Ada.Text_IO.Put_Line ("Window Handle:" & Window_Handle'Image);
 
-      loop
-         null;
-      end loop;
-
-      return
-        raise Program_Error
-          with "Unimplemented function Create_Windows_Window";
+      return (others => <>);
    end Create_Windows_Window;
 
 end AWTK.Windows;
