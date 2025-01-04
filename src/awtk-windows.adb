@@ -70,7 +70,12 @@ package body AWTK.Windows is
 
    function Handle_COM_Error (Result : HRESULT) return Boolean is
    begin
-      return Result >= 16#80000000#;
+      if Result >= 16#80000000# then
+         Ada.Text_IO.Put_Line ("COM Error:" & Result'Image);
+         return True;
+      else
+         return False;
+      end if;
    end Handle_COM_Error;
 
    task body COM_Loop_Task is
