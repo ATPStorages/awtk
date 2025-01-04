@@ -120,7 +120,7 @@ package AWTK.Windows is
 
    type Window_Class is record
       Structure_Size     : unsigned := Window_Class'Size / char'Size;
-      Class_Styles       : Window_Class_Styles_Flags;
+      Class_Styles       : UINT := 0;
       Window_Procedure   : HANDLE;
       Class_Size_Extra   : int := 0;
       Window_Size_Extra  : int := 0;
