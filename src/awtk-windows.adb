@@ -144,6 +144,10 @@ package body AWTK.Windows is
       end if;
       Ada.Text_IO.Put_Line ("Window Handle:" & Window_Handle'Image);
 
+      loop
+         null;
+      end loop;
+
       return
         raise Program_Error
           with "Unimplemented function Create_Windows_Window";
