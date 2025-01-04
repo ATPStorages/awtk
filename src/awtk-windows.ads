@@ -70,6 +70,23 @@ package AWTK.Windows is
    type LRESULT is new LONG_PTR;
    type WPARAM is new LONG_PTR;
    type LPARAM is new LONG_PTR;
+   type LPMSG is new HANDLE;
+   type POINT is record
+      X, Y : LONG;
+   end record
+   with Convention => C;
+   subtype POINTL is POINT;
+
+   type Thread_Message is record
+      Window_Handle   : HWND;
+      Raw_Message     : UINT;
+      AdditionalW     : WPARAM;
+      AdditionalL     : LPARAM;
+      Posted_At       : DWORD;
+      Cursor_Position : POINT;
+      PrivateL        : DWORD;
+   end record
+   with Convention => C;
 
    type Window_Callback_Message is
      (UNKNOWN,
@@ -182,16 +199,16 @@ package AWTK.Windows is
    with Import => True, External_Name => "DefWindowProcA", Convention => C;
 
    function Get_Message_W
-     (Message        : HANDLE;
+     (Message        : LPMSG;
       Window_Filter  : HANDLE := System.Null_Address;
       Filter_ID_Low  : UINT := 0;
       Filter_ID_High : UINT := 0) return BOOL
-   with Import => True, External_Name => "GetMessage", Convention => C;
+   with Import => True, External_Name => "GetMessageW", Convention => C;
 
-   function Translate_Message (Message : HANDLE) return BOOL
+   function Translate_Message (Message : LPMSG) return BOOL
    with Import => True, External_Name => "TranslateMessage", Convention => C;
 
-   function Dispatch_Message_W (Message : HANDLE) return LRESULT
+   function Dispatch_Message_W (Message : LPMSG) return LRESULT
    with Import => True, External_Name => "DispatchMessageW", Convention => C;
 
    type Windows_Window is new Window with null record;

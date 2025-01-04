@@ -141,24 +141,24 @@ package body AWTK.Windows is
       end if;
 
       declare
-         Message  : HANDLE;
-         Continue : BOOL := 1;
+         Message         : Thread_Message;
+         pragma Volatile (Message);
+         Message_Address : LPMSG := LPMSG (Message'Address);
+         Continue        : BOOL := 1;
 
          discard_1 : BOOL;
          discard_2 : LRESULT;
-
-         pragma Volatile (Message);
 
          task Window_Task;
          task body Window_Task is
          begin
             loop
                Ada.Text_IO.Put_Line ("Get");
-               Continue := Get_Message_W (Message'Address);
+               Continue := Get_Message_W (Message_Address);
                Ada.Text_IO.Put_Line ("Got");
-               discard_1 := Translate_Message (Message);
+               discard_1 := Translate_Message (Message_Address);
                Ada.Text_IO.Put_Line ("Translated");
-               discard_2 := Dispatch_Message_W (Message);
+               discard_2 := Dispatch_Message_W (Message_Address);
                Ada.Text_IO.Put_Line ("Dispatched");
                exit when Continue = 0;
             end loop;
