@@ -205,6 +205,14 @@ package AWTK.Windows is
       Filter_ID_High : UINT := 0) return BOOL
    with Import => True, External_Name => "GetMessageW", Convention => C;
 
+   function Peek_Message_W
+     (Message        : LPMSG;
+      Window_Filter  : HANDLE := System.Null_Address;
+      Filter_ID_Low  : UINT := 0;
+      Filter_ID_High : UINT := 0;
+      Parameters     : UINT := 1) return BOOL
+   with Import => True, External_Name => "PeekMessageW", Convention => C;
+
    function Translate_Message (Message : LPMSG) return BOOL
    with Import => True, External_Name => "TranslateMessage", Convention => C;
 
