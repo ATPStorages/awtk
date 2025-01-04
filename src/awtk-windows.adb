@@ -152,19 +152,15 @@ package body AWTK.Windows is
          task Window_Task;
          task body Window_Task is
          begin
-            Ada.Text_IO.Put_Line ("Starting message loop. (Message Address:" & Message_Address'Image & ")");
+            Ada.Text_IO.Put_Line ("Starting message loop. (Message Address:" & Message_Address'Image & ", Size:" & Message'Size'Image & ")");
             loop
-               <<Get>>
-               Continue := Peek_Message_W (Message_Address);
-               if Continue = 0 then
-                  goto Get;
-               end if;
+               Continue := Get_Message_W (Message_Address);
                Ada.Text_IO.Put_Line ("Got");
                discard_1 := Translate_Message (Message_Address);
                Ada.Text_IO.Put_Line ("Translated");
                discard_2 := Dispatch_Message_W (Message_Address);
                Ada.Text_IO.Put_Line ("Dispatched");
-               --  exit when Continue = 0;
+               exit when Continue = 0;
             end loop;
             Ada.Text_IO.Put_Line ("Message loop terminated.");
          end Window_Task;
