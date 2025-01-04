@@ -104,9 +104,7 @@ package body AWTK.Windows is
       task Poll_Task;
       task body Poll_Task is
       begin
-         loop
-            null;
-         end loop;
+         delay 999.0;
       end Poll_Task;
    begin
       declare
