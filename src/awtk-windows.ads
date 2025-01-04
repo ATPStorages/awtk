@@ -76,16 +76,22 @@ package AWTK.Windows is
       DESTROYING,
       MOVED,
       SIZE_CHANGED,
+      ACTIVATION_CHANGED,
+      KEYBOARD_FOCUS_CHANGED,
+      ERASE_BACKGROUND_REQUEST,
       VISIBILITY_CHANGED,
       ACTIVATION_CHANGED_EXTL,
       SIZE_OVERRIDE_REQUEST,
+      OBJECT_REQUEST,
       POSITION_CHANGING,
       POSITION_CHANGED,
       ICON_REQUEST,
       CONFIRM_CREATION,
       AFTER_DESTROYING,
       CALCULATE_CLIENT_AREA_SIZE,
-      ACTIVATION_CHANGED_INTL)
+      FRAME_PAINT_REQUEST,
+      ACTIVATION_CHANGED_INTL,
+      IME_SET_CONTEXT)
    with Size => UINT'Size;
 
    for Window_Callback_Message use
@@ -94,16 +100,22 @@ package AWTK.Windows is
       DESTROYING                 => 16#00_02#,
       MOVED                      => 16#00_03#,
       SIZE_CHANGED               => 16#00_05#,
+      ACTIVATION_CHANGED         => 16#00_06#,
+      KEYBOARD_FOCUS_CHANGED     => 16#00_07#,
+      ERASE_BACKGROUND_REQUEST   => 16#00_14#,
       VISIBILITY_CHANGED         => 16#00_18#,
       ACTIVATION_CHANGED_EXTL    => 16#00_1C#,
       SIZE_OVERRIDE_REQUEST      => 16#00_24#,
+      OBJECT_REQUEST             => 16#00_3D#,
       POSITION_CHANGING          => 16#00_46#,
       POSITION_CHANGED           => 16#00_47#,
       ICON_REQUEST               => 16#00_7F#,
       CONFIRM_CREATION           => 16#00_81#,
       AFTER_DESTROYING           => 16#00_82#,
       CALCULATE_CLIENT_AREA_SIZE => 16#00_83#,
-      ACTIVATION_CHANGED_INTL    => 16#00_86#);
+      FRAME_PAINT_REQUEST        => 16#00_85#,
+      ACTIVATION_CHANGED_INTL    => 16#00_86#,
+      IME_SET_CONTEXT            => 16#02_81#);
 
    type Window_Class is record
       Structure_Size     : unsigned := Window_Class'Size / char'Size;
