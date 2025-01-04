@@ -83,6 +83,7 @@ package body AWTK.Windows is
          Window_Name := New_Window_Name;
       end Start;
 
+      Ada.Text_IO.Put_Line (Extended_Window_Class_Styles'Size'Image);
       Window_Handle :=
         Create_Window_ExA
           ([others => False],
