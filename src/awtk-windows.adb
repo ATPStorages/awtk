@@ -46,7 +46,9 @@ package body AWTK.Windows is
          & Raw_Message'Image);
       case Message is
          when others =>
-            return Default_Process_Callback_A (Window_Handle, Raw_Message, AdditionalW, AdditionalL);
+            return
+              Default_Process_Callback_A
+                (Window_Handle, Raw_Message, AdditionalW, AdditionalL);
       end case;
    end Windows_Process_Callback;
 
@@ -91,7 +93,10 @@ package body AWTK.Windows is
       Window_Name        : LPCSTR;
       Application_Handle : HINSTANCE;
    begin
-      accept Start (New_Class_Name, New_Window_Name : LPCSTR; New_Application_Handle : HINSTANCE) do
+      accept Start
+        (New_Class_Name, New_Window_Name : LPCSTR;
+         New_Application_Handle          : HINSTANCE)
+      do
          Application_Handle := New_Application_Handle;
          Window_Class_Name := New_Class_Name;
          Window_Name := New_Window_Name;
@@ -111,32 +116,38 @@ package body AWTK.Windows is
       if Window_Handle = HWND (System.Null_Address) then
          raise Program_Error
            with
-             "Failed to create the window: "
-             & Get_Last_Error_Formatted'Image;
+             "Failed to create the window: " & Get_Last_Error_Formatted'Image;
       end if;
 
       declare
          Message         : Thread_Message;
          pragma Volatile (Message);
-         Message_Address : LPMSG := LPMSG (Message'Address);
+         Message_Address : constant LPMSG := LPMSG (Message'Address);
          Continue        : BOOL := 1;
 
          discard_1 : BOOL;
          discard_2 : LRESULT;
       begin
          Ada.Text_IO.Put_Line ("Window Handle:" & Window_Handle'Image);
-         Ada.Text_IO.Put_Line ("Starting message loop. (Message Address:" & Message_Address'Image & ", Size:" & Message'Size'Image & ")");
-            loop
-               Continue := Get_Message_W (Message_Address, Window_Handle);
-               if Continue = -1 then
-                  Ada.Text_IO.Put_Line ("Problem in message loop: " & Get_Last_Error_Formatted'Image);
-                  exit;
-               end if;
-               discard_1 := Translate_Message (Message_Address);
-               discard_2 := Dispatch_Message_W (Message_Address);
-               exit when Continue = 0;
-            end loop;
-            Ada.Text_IO.Put_Line ("Message loop terminated.");
+         Ada.Text_IO.Put_Line
+           ("Starting message loop. (Message Address:"
+            & Message_Address'Image
+            & ", Size:"
+            & Message'Size'Image
+            & ")");
+         loop
+            Continue := Get_Message_W (Message_Address, Window_Handle);
+            if Continue = -1 then
+               Ada.Text_IO.Put_Line
+                 ("Problem in message loop: "
+                  & Get_Last_Error_Formatted'Image);
+               exit;
+            end if;
+            discard_1 := Translate_Message (Message_Address);
+            discard_2 := Dispatch_Message_W (Message_Address);
+            exit when Continue = 0;
+         end loop;
+         Ada.Text_IO.Put_Line ("Message loop terminated.");
       end;
    end Message_Loop_Task;
 
@@ -144,15 +155,14 @@ package body AWTK.Windows is
    -- Create_Windows_Window --
    ---------------------------
 
-   function Create_Windows_Window return not null access Windows_Window is
+   function Create_Windows_Window return Windows_Window_Access is
       Application_Handle : constant HMODULE := Get_Module_Handle_A;
       Window_Class_Atom  : ATOM;
-      Window_Name        : constant String :=
-        "Hello World" & ASCII.NUL;
-      Window_Class_Name  : constant String :=
-        "Dummy" & ASCII.NUL;
+      Window_Name        : constant String := "Hello World" & ASCII.NUL;
+      Window_Class_Name  : constant String := "Dummy" & ASCII.NUL;
 
-      New_Window : not null access Windows_Window := new Windows_Window'(others => <>);
+      New_Window : constant Windows_Window_Access :=
+        new Windows_Window'(Message_Loop => new Message_Loop_Task);
    begin
       declare
          Window_Class_Definition : constant Window_Class :=
@@ -176,8 +186,10 @@ package body AWTK.Windows is
          end if;
       end;
 
-      New_Window.Message_Loop := new Message_Loop_Task;
-      New_Window.Message_Loop.Start (LPCSTR (Window_Class_Name'Address), LPCSTR (Window_Name'Address), Application_Handle);
+      New_Window.Message_Loop.Start
+        (LPCSTR (Window_Class_Name'Address),
+         LPCSTR (Window_Name'Address),
+         Application_Handle);
       return New_Window;
    end Create_Windows_Window;
 

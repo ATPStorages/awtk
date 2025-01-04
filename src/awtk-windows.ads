@@ -72,7 +72,7 @@ package AWTK.Windows is
    type LPARAM is new LONG_PTR;
    type LPMSG is new HANDLE;
    type POINT is record
-      X, Y : LONG;
+      X, Y : long;
    end record
    with Convention => C;
    subtype POINTL is POINT;
@@ -272,12 +272,18 @@ package AWTK.Windows is
    with Import => True, External_Name => "DispatchMessageW", Convention => C;
 
    task type Message_Loop_Task is
-      entry Start (New_Class_Name, New_Window_Name : LPCSTR; New_Application_Handle : HINSTANCE);
+      entry Start
+        (New_Class_Name, New_Window_Name : LPCSTR;
+         New_Application_Handle          : HINSTANCE);
    end Message_Loop_Task;
 
+   type Message_Loop_Task_Access is not null access Message_Loop_Task;
+
    type Windows_Window is new Window with record
-      Message_Loop : access Message_Loop_Task := null;
+      Message_Loop : Message_Loop_Task_Access;
    end record;
 
-   function Create_Windows_Window return not null access Windows_Window;
+   type Windows_Window_Access is not null access Windows_Window;
+
+   function Create_Windows_Window return Windows_Window_Access;
 end AWTK.Windows;
