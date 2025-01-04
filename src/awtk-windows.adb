@@ -31,6 +31,7 @@ package body AWTK.Windows is
       AdditionalW   : WPARAM;
       AdditionL     : LPARAM) return LRESULT is
    begin
+      Ada.Text_IO.Put_Line ("Callback fired!");
       return 0;
    end Windows_Process_Callback;
 
