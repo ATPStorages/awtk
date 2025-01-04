@@ -68,6 +68,24 @@ package body AWTK.Windows is
       end if;
    end Get_Last_Error_Formatted;
 
+   function Handle_COM_Error (Result : HRESULT) return Boolean is
+   begin
+      return Result >= 16#80000000#;
+   end Handle_COM_Error;
+
+   task body COM_Loop_Task is
+      Status : HRESULT;
+   begin
+      accept Start;
+      Status := COM_Initialize_Ex (Concurrency_Model => 16#06#);
+      if Handle_COM_Error (Status) then
+         goto Stop;
+      end if;
+
+      <<Stop>>
+      COM_Uninitialize;
+   end COM_Loop_Task;
+
    task body Message_Loop_Task is
       Window_Handle      : HWND;
       Window_Class_Name  : LPCSTR;
@@ -85,7 +103,7 @@ package body AWTK.Windows is
 
       Window_Handle :=
         Create_Window_ExA
-          (0,
+          (16#00000010#,
            Window_Class_Name,
            Window_Name,
            16#10cf0000#,

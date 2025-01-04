@@ -331,6 +331,8 @@ package AWTK.Windows is
 
    function Get_Last_Error_Formatted return Wide_String;
 
+   function Handle_COM_Error (Result : HRESULT) return Boolean;
+
    function Windows_Process_Callback
      (Window_Handle : HWND;
       Raw_Message   : UINT;
@@ -373,6 +375,10 @@ package AWTK.Windows is
 
    procedure COM_Uninitialize
    with Import => True, External_Name => "CoUninitialize", Convention => C;
+
+   task type COM_Loop_Task is
+      entry Start;
+   end COM_Loop_Task;
 
    task type Message_Loop_Task is
       entry Start
