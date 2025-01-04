@@ -76,20 +76,30 @@ package AWTK.Windows is
       DESTROYING,
       MOVED,
       SIZE_CHANGED,
+      VISIBILITY_CHANGED,
+      ACTIVATION_CHANGED_EXTL,
       SIZE_OVERRIDE_REQUEST,
+      POSITION_CHANGED,
       CONFIRM_CREATION,
-      AFTER_DESTROYING)
+      AFTER_DESTROYING,
+      CALCULATE_CLIENT_AREA_SIZE,
+      ACTIVATION_CHANGED_INTL)
    with Size => UINT'Size;
 
    for Window_Callback_Message use
-     (UNKNOWN               => 16#00_00#,
-      CREATED               => 16#00_01#,
-      DESTROYING            => 16#00_02#,
-      MOVED                 => 16#00_03#,
-      SIZE_CHANGED          => 16#00_05#,
-      SIZE_OVERRIDE_REQUEST => 16#00_24#,
-      CONFIRM_CREATION      => 16#00_81#,
-      AFTER_DESTROYING      => 16#00_82#);
+     (UNKNOWN                    => 16#00_00#,
+      CREATED                    => 16#00_01#,
+      DESTROYING                 => 16#00_02#,
+      MOVED                      => 16#00_03#,
+      SIZE_CHANGED               => 16#00_05#,
+      VISIBILITY_CHANGED         => 16#00_18#,
+      ACTIVATION_CHANGED_EXTL    => 16#00_1C#,
+      SIZE_OVERRIDE_REQUEST      => 16#00_24#,
+      POSITION_CHANGED           => 16#00_46#,
+      CONFIRM_CREATION           => 16#00_81#,
+      AFTER_DESTROYING           => 16#00_82#,
+      CALCULATE_CLIENT_AREA_SIZE => 16#00_83#,
+      ACTIVATION_CHANGED_INTL    => 16#00_86#);
 
    type Window_Class is record
       Structure_Size     : unsigned := Window_Class'Size / char'Size;
