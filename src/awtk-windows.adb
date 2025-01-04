@@ -147,6 +147,8 @@ package body AWTK.Windows is
          discard_1 : BOOL;
          discard_2 : LRESULT;
 
+         pragma Volatile (Message);
+
          task Window_Task;
          task body Window_Task is
          begin
