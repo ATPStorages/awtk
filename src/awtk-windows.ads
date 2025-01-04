@@ -84,7 +84,6 @@ package AWTK.Windows is
       AdditionalL     : LPARAM;
       Posted_At       : DWORD;
       Cursor_Position : POINT;
-      PrivateL        : DWORD;
    end record
    with Convention => C;
 
