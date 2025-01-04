@@ -153,9 +153,12 @@ package body AWTK.Windows is
          Ada.Text_IO.Put_Line ("Starting message loop. (Message Address:" & Message_Address'Image & ", Size:" & Message'Size'Image & ")");
             loop
                Continue := Get_Message_W (Message_Address, Window_Handle);
+               if Continue = -1 then
+                  Ada.Text_IO.Put_Line ("Problem in message loop: " & Get_Last_Error_Formatted'Image);
+                  exit;
+               end if;
                discard_1 := Translate_Message (Message_Address);
                discard_2 := Dispatch_Message_W (Message_Address);
-               Ada.Text_IO.Put_Line (Continue'Image);
                exit when Continue = 0;
             end loop;
             Ada.Text_IO.Put_Line ("Message loop terminated.");
