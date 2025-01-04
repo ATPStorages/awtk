@@ -75,8 +75,6 @@ package body AWTK.Windows is
       Window_Class_Name  : LPCSTR;
       Window_Name        : LPCSTR;
       Application_Handle : HINSTANCE;
-
-      function A is new Ada.Unchecked_Conversion (Extended_Window_Class_Styles_Flags, DWORD);
    begin
       accept Start
         (New_Class_Name, New_Window_Name : LPCSTR;
@@ -87,11 +85,9 @@ package body AWTK.Windows is
          Window_Name := New_Window_Name;
       end Start;
 
-      Ada.Text_IO.Put_Line (A ([others => False])'Image);
-
       Window_Handle :=
         Create_Window_ExA
-          ([others => False],
+          (0,
            Window_Class_Name,
            Window_Name,
            16#10cf0000#,
