@@ -91,6 +91,7 @@ package body AWTK.Windows is
       Window_Class_Name  : LPCSTR;
       Window_Name        : LPCSTR;
       Application_Handle : HINSTANCE;
+      COM_Task           : COM_Loop_Task_Access := new COM_Loop_Task;
    begin
       accept Start
         (New_Class_Name, New_Window_Name : LPCSTR;
@@ -116,6 +117,8 @@ package body AWTK.Windows is
          Ada.Text_IO.Put_Line("Failed to create the window: " & Get_Last_Error_Formatted'Image);
          goto Stop;
       end if;
+
+      COM_Task.Start;
 
       declare
          Message         : Thread_Message;

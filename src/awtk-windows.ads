@@ -384,6 +384,8 @@ package AWTK.Windows is
       entry Start;
    end COM_Loop_Task;
 
+   type COM_Loop_Task_Access is not null access COM_Loop_Task;
+
    task type Message_Loop_Task is
       entry Start
         (New_Class_Name, New_Window_Name : LPCSTR;
