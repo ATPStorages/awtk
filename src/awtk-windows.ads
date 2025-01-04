@@ -288,7 +288,7 @@ package AWTK.Windows is
    with Import => True, External_Name => "RegisterClassExA", Convention => C;
 
    function Create_Window_ExA
-     (Extended_Style      : DWORD;
+     (Extended_Style      : Extended_Window_Class_Styles_Flags;
       Class_Name          : LPCSTR;
       Window_Name         : LPCSTR;
       Style               : DWORD;
