@@ -148,22 +148,14 @@ package body AWTK.Windows is
 
          discard_1 : BOOL;
          discard_2 : LRESULT;
-
-         task Window_Task;
-         task body Window_Task is
-         begin
-            null;
-         end Window_Task;
       begin
          Ada.Text_IO.Put_Line ("Window Handle:" & Window_Handle'Image);
          Ada.Text_IO.Put_Line ("Starting message loop. (Message Address:" & Message_Address'Image & ", Size:" & Message'Size'Image & ")");
             loop
                Continue := Get_Message_W (Message_Address, Window_Handle);
-               Ada.Text_IO.Put_Line ("Got");
                discard_1 := Translate_Message (Message_Address);
-               Ada.Text_IO.Put_Line ("Translated");
                discard_2 := Dispatch_Message_W (Message_Address);
-               Ada.Text_IO.Put_Line ("Dispatched");
+               Ada.Text_IO.Put_Line (Continue'Image);
                exit when Continue = 0;
             end loop;
             Ada.Text_IO.Put_Line ("Message loop terminated.");
