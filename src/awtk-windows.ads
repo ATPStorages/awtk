@@ -56,6 +56,7 @@ package AWTK.Windows is
    type WORD is new Interfaces.Unsigned_16;
    type DWORD is new Interfaces.Unsigned_32;
    type ATOM is new WORD;
+   type BOOL is new int;
    type UINT is new unsigned;
    subtype HANDLE is System.Address;
    type HWND is new HANDLE;
@@ -179,6 +180,19 @@ package AWTK.Windows is
       AdditionalW   : WPARAM;
       AdditionalL   : LPARAM) return LRESULT
    with Import => True, External_Name => "DefWindowProcA", Convention => C;
+
+   function Get_Message_W
+     (Message        : HANDLE;
+      Window_Filter  : HANDLE := System.Null_Address;
+      Filter_ID_Low  : UINT := 0;
+      Filter_ID_High : UINT := 0) return BOOL
+   with Import => True, External_Name => "GetMessageW", Convention => C;
+
+   function Translate_Message (Message : HANDLE) return BOOL
+   with Import => True, External_Name => "TranslateMessage", Convention => C;
+
+   function Dispatch_Message_W (Message : HANDLE) return LRESULT
+   with Import => True, External_Name => "DispatchMessageW", Convention => C;
 
    type Windows_Window is new Window with null record;
    function Create_Windows_Window return Windows_Window;

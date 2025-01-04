@@ -97,15 +97,6 @@ package body AWTK.Windows is
         "Hello World" & ASCII.NUL'Wide_Image;
       Window_Class_Name  : constant Wide_String :=
         "Dummy" & ASCII.NUL'Wide_Image;
-
-      task Poll_Task;
-      task body Poll_Task is
-      begin
-         loop
-            delay 1.0;
-            Ada.Text_IO.Put_Line ("Polling loop");
-         end loop;
-      end Poll_Task;
    begin
       declare
          Window_Class_Definition : constant Window_Class :=
@@ -148,7 +139,27 @@ package body AWTK.Windows is
              & ", created class ATOM:"
              & Window_Class_Atom'Image;
       end if;
-      Ada.Text_IO.Put_Line ("Window Handle:" & Window_Handle'Image);
+
+      declare
+         Message  : HANDLE;
+         Continue : BOOL := 1;
+
+         discard_1 : BOOL;
+         discard_2 : LRESULT;
+
+         task Window_Task;
+         task body Window_Task is
+         begin
+            loop
+               Continue := Get_Message_W (Message'Address);
+               discard_1 := Translate_Message (Message);
+               discard_2 := Dispatch_Message_W (Message);
+               exit when Continue = 0;
+            end loop;
+         end Window_Task;
+      begin
+         Ada.Text_IO.Put_Line ("Window Handle:" & Window_Handle'Image);
+      end;
 
       return (others => <>);
    end Create_Windows_Window;
