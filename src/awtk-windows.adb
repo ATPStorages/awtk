@@ -84,7 +84,7 @@ package body AWTK.Windows is
    begin
       declare
          Window_Class_Definition : constant Window_Class :=
-           (Window_Procedure  => System.Null_Address,
+           (Window_Procedure  => Windows_Process_Callback'Address,
             Window_Handle     => Application_Handle,
             Window_Class_Name => LPCSTR (Window_Class_Name'Address),
             others            => <>);
