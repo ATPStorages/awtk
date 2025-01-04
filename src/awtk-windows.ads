@@ -68,7 +68,7 @@ package AWTK.Windows is
 
    type Window_Class_Styles_Flags is
      array (Window_Class_Styles'First .. Window_Class_Styles'Last) of Boolean
-   with Component_Size => 1, Size => UINT'Size;
+   with Component_Size => 1, Size => UINT'Size, Convention => C;
 
    type Extended_Window_Class_Styles is
      (DOUBLE_BORDER_MODAL_FRAME,
@@ -142,7 +142,7 @@ package AWTK.Windows is
      array (Extended_Window_Class_Styles'First
             .. Extended_Window_Class_Styles'Last)
      of Boolean
-   with Component_Size => 1, Size => DWORD'Size;
+   with Component_Size => 1, Size => DWORD'Size, Convention => C;
 
    OVERLAPPED_WINDOW : constant Extended_Window_Class_Styles_Flags :=
      [BORDER_WITH_RAISED_EDGE => True,
