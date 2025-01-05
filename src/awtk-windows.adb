@@ -88,7 +88,6 @@ package body AWTK.Windows is
    begin
       accept Start;
       Status := COM_Initialize_Ex (Concurrency_Model => 16#06#);
-      Status := COM_Initialize_Ex (Concurrency_Model => 16#06#);
       if Handle_COM_Error (Status) then
          goto Stop;
       end if;
