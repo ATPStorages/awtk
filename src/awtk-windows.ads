@@ -194,6 +194,7 @@ package AWTK.Windows is
       ERASE_BACKGROUND_REQUEST,
       VISIBILITY_CHANGED,
       ACTIVATION_CHANGED_EXTL,
+      STOP_INPUT_MODE,
       MOUSE_MOVED_CURSOR,
       MOUSE_CLICKED_NON_ACTIVE,
       SIZE_OVERRIDE_REQUEST,
@@ -254,6 +255,7 @@ package AWTK.Windows is
       IME_SET_CONTEXT,
       IME_CHANGED,
       MOUSE_LEFT_NON_CLIENT,
+      QUERY_NEW_LOGICAL_PALETTE,
       APPLICATION_COMMAND_BY_USER,
       NON_CLIENT_RENDER_POLICY_CHANGED)
    with Size => UINT'Size;
@@ -273,6 +275,7 @@ package AWTK.Windows is
       ERASE_BACKGROUND_REQUEST         => 16#00_14#,
       VISIBILITY_CHANGED               => 16#00_18#,
       ACTIVATION_CHANGED_EXTL          => 16#00_1C#,
+      STOP_INPUT_MODE                  => 16#00_1F#,
       MOUSE_MOVED_CURSOR               => 16#00_20#,
       MOUSE_CLICKED_NON_ACTIVE         => 16#00_21#,
       SIZE_OVERRIDE_REQUEST            => 16#00_24#,
@@ -333,6 +336,7 @@ package AWTK.Windows is
       IME_SET_CONTEXT                  => 16#02_81#,
       IME_CHANGED                      => 16#02_82#,
       MOUSE_LEFT_NON_CLIENT            => 16#02_A2#,
+      QUERY_NEW_LOGICAL_PALETTE        => 16#03_0F#,
       APPLICATION_COMMAND_BY_USER      => 16#03_19#,
       NON_CLIENT_RENDER_POLICY_CHANGED => 16#03_1F#);
 
