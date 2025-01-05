@@ -155,20 +155,16 @@ package AWTK.Windows is
       others                  => False];
 
    type COM_Concurrency_Models is
-     (MULTITHREADED,
-      APARTMENT_THREADED,
-      DISABLE_OLE1DDE,
-      SPEED_OVER_MEMORY);
+     (MULTITHREADED, APARTMENT_THREADED, DISABLE_OLE1DDE, SPEED_OVER_MEMORY);
 
    for COM_Concurrency_Models use
-     (MULTITHREADED               => 0,
-      APARTMENT_THREADED                             => 2 ** 1,
-      DISABLE_OLE1DDE           => 2 ** 2,
-      SPEED_OVER_MEMORY                           => 2 ** 3);
+     (MULTITHREADED      => 0,
+      APARTMENT_THREADED => 2 ** 1,
+      DISABLE_OLE1DDE    => 2 ** 2,
+      SPEED_OVER_MEMORY  => 2 ** 3);
 
    type COM_Concurrency_Models_Flags is
-     array (COM_Concurrency_Models'First
-            .. COM_Concurrency_Models'Last)
+     array (COM_Concurrency_Models'First .. COM_Concurrency_Models'Last)
      of Boolean
    with Component_Size => 1, Size => DWORD'Size, Convention => C;
 
@@ -236,6 +232,8 @@ package AWTK.Windows is
       MIDDLE_MOUSE_DOWN_CLIENT,
       MIDDLE_MOUSE_UP_CLIENT,
       VERTICAL_SCROLL_WHEEL_MOVED,
+      X_BUTTON_DOWN_CLIENT,
+      X_BUTTON_UP_CLIENT,
       HORIZONTAL_SCROLL_WHEEL_MOVED,
       MENU_LOOP_ENTERED,
       MENU_LOOP_EXITING,
@@ -248,6 +246,7 @@ package AWTK.Windows is
       IME_SET_CONTEXT,
       IME_CHANGED,
       MOUSE_LEFT_NON_CLIENT,
+      APPLICATION_COMMAND_BY_USER,
       NON_CLIENT_RENDER_POLICY_CHANGED)
    with Size => UINT'Size;
 
@@ -304,6 +303,8 @@ package AWTK.Windows is
       MIDDLE_MOUSE_DOWN_CLIENT         => 16#02_07#,
       MIDDLE_MOUSE_UP_CLIENT           => 16#02_08#,
       VERTICAL_SCROLL_WHEEL_MOVED      => 16#02_0A#,
+      X_BUTTON_DOWN_CLIENT             => 16#02_0B#,
+      X_BUTTON_UP_CLIENT               => 16#02_0C#,
       HORIZONTAL_SCROLL_WHEEL_MOVED    => 16#02_0E#,
       MENU_LOOP_ENTERED                => 16#02_11#,
       MENU_LOOP_EXITING                => 16#02_12#,
@@ -316,6 +317,7 @@ package AWTK.Windows is
       IME_SET_CONTEXT                  => 16#02_81#,
       IME_CHANGED                      => 16#02_82#,
       MOUSE_LEFT_NON_CLIENT            => 16#02_A2#,
+      APPLICATION_COMMAND_BY_USER      => 16#03_19#,
       NON_CLIENT_RENDER_POLICY_CHANGED => 16#03_1F#);
 
    type Window_Class is record
@@ -342,7 +344,8 @@ package AWTK.Windows is
    with Import => True, External_Name => "RegisterClassExA", Convention => C;
 
    function Create_Window_ExA
-     (Extended_Style      : DWORD; --  In the future, figure out why Extended_Window_Class_Styles_Flags doesn't work
+     (Extended_Style      : DWORD;
+      --  In the future, figure out why Extended_Window_Class_Styles_Flags doesn't work
       Class_Name          : LPCSTR;
       Window_Name         : LPCSTR;
       Style               : DWORD;

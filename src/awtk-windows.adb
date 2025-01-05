@@ -20,11 +20,15 @@ package body AWTK.Windows is
          when Constraint_Error =>
             Message := UNKNOWN;
       end;
-      Ada.Text_IO.Put_Line
-        ("Callback fired! Message: "
-         & Message'Image
-         & ", value:"
-         & Raw_Message'Image);
+
+      if Message = UNKNOWN then
+         Ada.Text_IO.Put_Line
+           ("Callback fired! Message: "
+            & Message'Image
+            & ", value:"
+            & Raw_Message'Image);
+      end if;
+
       case Message is
          when others =>
             return
@@ -119,7 +123,8 @@ package body AWTK.Windows is
            500,
            Module_Handle => Application_Handle);
       if Window_Handle = HWND (System.Null_Address) then
-         Ada.Text_IO.Put_Line("Failed to create the window: " & Get_Last_Error_Formatted'Image);
+         Ada.Text_IO.Put_Line
+           ("Failed to create the window: " & Get_Last_Error_Formatted'Image);
          goto Stop;
       end if;
 
@@ -191,7 +196,8 @@ package body AWTK.Windows is
                 "Failed to register the window class: "
                 & Get_Last_Error_Formatted'Image;
          else
-            Ada.Text_IO.Put_Line ("Registered class @" & Window_Class_Atom'Image);
+            Ada.Text_IO.Put_Line
+              ("Registered class @" & Window_Class_Atom'Image);
          end if;
       end;
 
